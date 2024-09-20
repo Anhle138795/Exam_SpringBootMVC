@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Category</title>
+    <link rel="stylesheet" href="/css/mystic.css">
+</head>
+<body>
+    <h1>Edit Category</h1>
+    <form th:action="@{/admin/cates/updatecategory}" method="post" th:object="${up_item}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="line">
+            <div class="col-title">Title</div>
+            <div class="col-input"><input type="text" th:field="*{title}"/></div>
+            <div th:if="${titleError}" th:text="${titleError}" style="color: red;"></div>
+        </div>
+        <div class="line">
+            <div class="col-title">Index</div>
+            <div class="col-input"><input type="number" th:field="*{no}"/></div>
+        </div>
+        <div class="line">
+            <div class="col-title">Type</div>
+            <div class="col-input">
+                <select th:field="*{idType}">
+                    <option value="0">Select Type</option>
+                    <option th:each="option : ${lsType}" th:value="${option.id}" th:text="${option.title}" th:selected="${option.id} == ${up_item.idType}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="line">
+            <div class="col-title">Status</div>
+            <div class="col-input">
+                <input type="checkbox" th:field="*{status}" th:value="1" th:checked="${up_item.status == 1}"/>
+            </div>
+        </div>
+        <!-- <div class="line">
+            <div class="col-title">Current Image</div>
+            <div class="col-input">
+                <img th:src="@{'/uploads/' + ${up_item.image}}" alt="Current Image" style="max-width: 200px;"/>
+            </div>
+        </div> -->
+        <div class="line">
+            <div class="col-title">New Image</div>
+            <div class="col-input"><input type="file" name="image" accept="image/*"/></div>
+            <div th:if="${imageError}" th:text="${imageError}" style="color: red;"></div>
+        </div>
+        <div class="line">
+            <div class="col-input"><input type="submit" value="Update"/></div>
+        </div>
+    </form>
+    <script>
+        window.onload = () => {
+            var cbStatus = document.querySelector("[name='status']");
+            cbStatus.addEventListener("change", (event) => {
+                var item_target = event.currentTarget;
+                item_target.value = item_target.checked ? "1" : "0";
+            });
+        };
+    </script>
+</body>
+</html>

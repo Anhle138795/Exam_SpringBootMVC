@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Category</title>
+    <link rel="stylesheet" href="/css/mystic.css">
+</head>
+<body>
+    <h1>New Category</h1>
+    <form th:action="@{/admin/cates/newcategory}" method="post" th:object="${newItem}" enctype="multipart/form-data">
+        <div class="line">
+            <div class="col-title">Title</div>
+            <div class="col-input"><input type="text" name="title"/></div>
+        </div>
+        <div class="line">
+            <div class="col-title">Index</div>
+            <div class="col-input"><input type="number" name="no"/></div>
+        </div>
+        <div class="line">
+            <div class="col-title">Type</div>
+            <div class="col-input">
+                <select name="idType">
+                    <option value="0">Select Type</option>
+                    <option th:each="option : ${lsType}" th:value="${option.id}" th:text="${option.title}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="line">
+            <div class="col-title">Status</div>
+            <div class="col-input"><input type="checkbox" name="status" id="status" value="0" title="status" placeholder=""/></div>
+        </div>
+        <div class="line">
+            <div class="col-title">Image</div>
+            <div class="col-input"><input type="file" name="image" accept="image/*"/></div>
+        </div>
+        <div class="line">
+            <div class="col-input"><input type="submit" value="Save"/></div>
+        </div>
+    </form>
+    <script>
+        window.onload = () => {
+            var cbNo = document.querySelector("#status");
+            cbNo.addEventListener("change", (event) => {
+                var item_target = event.currentTarget;
+                if (item_target.checked) {
+                    item_target.value = "1";
+                } else {
+                    item_target.value = "0";
+                }
+            });
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Position item</title>
+	<link rel="stylesheet" href="../../../css/mysite.css">
+</head>
+<body>
+	<div class="form-box">
+		<form th:action="@{/admin/position/new_position}" method="post" th:object="${new_item}">
+			<div class="">
+				<h1>Create Position</h1>
+			</div>
+			<div>
+				<label for="title">Title</label>
+				<input type="text" th:field="*{title}" placeholder="input text" alt="">
+				<input type="hidden" th:field="*{id}" id="id">
+				<div th:if="${titleError}" th:text="${titleError}" style="color: red;"></div>
+			</div>
+			<div>
+				<label for="status">Status</label>
+				<input type="checkbox" th:field="*{status}" th:value="1" title="status" placeholder="" alt="">
+				<input type="hidden" name="status" value="0">
+			</div>
+			<div>
+				<input type="submit" value="Save" alt="">
+			</div>
+		</form>
+	</div>
+	<script>
+		window.onload = () => {
+			var lschk = document.querySelectorAll("input[type=checkbox]");
+			for (let i = 0; i < lschk.length; i++) {
+				var item = lschk[i];
+				if (item.checked) {
+					item.value = "1";
+				} else {
+					item.value = "0";
+				}
+				item.addEventListener("change", (event) => {
+					var item_target = event.currentTarget;
+					if (item_target.checked) {
+						item_target.value = "1";
+					} else {
+						item_target.value = "0";
+					}
+				});
+			}
+		}
+	</script>
+</body>
+</html>

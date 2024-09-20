@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        /* Your existing styles */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="show-entries">
+                                <span>Show</span>
+                                <select id="pageSizeSelect">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <h2 class="text-center">Type <b>Details</b></h2>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+                                    <input type="text" class="form-control" placeholder="Search&hellip;" id="searchInput">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <a href="/admin/type/create" class="btn btn-success">Create</a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th style="width: 1%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item, iterStat : ${types}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${item.title}"></td>
+                            <td>
+                                <a th:href="@{/admin/type/changeitem(id=${item.id})}" class="btn btn-primary btn-xs">Edit</a>
+                                <a href="#" th:onclick="'confirmDelete(event, ' + ${item.id} + ')'" class="btn btn-danger btn-xs">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">
+                        Showing <b th:text="${types.size()}"></b> out of <b th:text="${pv.total_page * pv.page_size}"></b> entries
+                    </div>
+                    <ul class="pagination">
+                        <li class="page-item" th:if="${pv.page_current > 1}">
+                            <a th:href="@{/admin/type(cp=${pv.page_current - 1}, page_size=${pv.page_size})}" class="page-link">Previous</a>
+                        </li>
+                        <li class="page-item" th:each="page_num : ${#numbers.sequence(1, pv.total_page)}" th:if="${page_num == 1 or page_num == pv.page_current or page_num == pv.page_current - 1 or page_num == pv.page_current + 1 or page_num == pv.total_page or page_num == pv.total_page - 1 or page_num == pv.total_page - 2}">
+                            <a th:href="@{/admin/type(cp=${page_num}, page_size=${pv.page_size})}" th:classappend="${page_num == pv.page_current} ? 'page-link active' : 'page-link'">
+                                <span th:text="${page_num}"></span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <input type="number" min="1" max="${pv.total_page}" class="form-control" style="width: 60px; display: inline-block; margin: 0 5px;" placeholder="Go to page" onkeydown="if(event.keyCode==13) {window.location.href='/admin/type?cp=' + this.value + '&page_size=${pv.page_size}';}">
+                        </li>
+                        <li class="page-item" th:if="${pv.page_current < pv.total_page}">
+                            <a th:href="@{/admin/type(cp=${pv.page_current + 1}, page_size=${pv.page_size})}" class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function confirmDelete(event, id) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to delete this type?")) {
+                window.location.href = '/admin/type/rmitem?id=' + id;
+            }
+        }
+
+        $(document).ready(function() {
+            $('#pageSizeSelect').change(function() {
+                var pageSize = $(this).val();
+                var currentPage = getParameterByName('cp') || 1;
+                var searchQuery = $('#searchInput').val();
+                window.location.href = '/admin/type?cp=' + currentPage + '&page_size=' + pageSize + '&search=' + searchQuery;
+            });
+
+            $('#searchInput').on('keyup', function(e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    var searchQuery = $(this).val();
+                    var pageSize = $('#pageSizeSelect').val();
+                    var currentPage = getParameterByName('cp') || 1;
+                    window.location.href = '/admin/type?cp=' + currentPage + '&page_size=' + pageSize + '&search=' + searchQuery;
+                }
+            });
+
+            var currentSize = getParameterByName('page_size');
+            if (currentSize) {
+                $('#pageSizeSelect').val(currentSize);
+            }
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    </script>
+</body>
+</html>

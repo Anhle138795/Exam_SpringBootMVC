@@ -1,0 +1,63 @@
+/* mysite.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+	text-align: center; 
+}
+
+.form-box {
+    background-color: none;
+    width: 300px;
+    padding: 20px;
+    margin: 50px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+     
+}
+
+.form-box form div {
+    margin-bottom: 15px;
+}
+
+.form-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-box input[type="text"],
+.form-box input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-box input[type="checkbox"] {
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.form-box input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-box input[type="submit"]:hover {
+    background-color: #0056b3;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="/css/mysite.css">
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Image</th>
+                <th>No.</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${categories}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.title}"></td>
+                <td th:text="${item.idType}">Type</td>
+                <td>
+                    <img th:src="@{/uploads/} + ${item.image}" alt="no image" width="100" height="100"/>
+                </td>
+                <td th:text="${item.no}"></td>
+                <td>
+                    <input type="checkbox" title="status" name="status" id="status" th:value="${item.status}" onchange="change(event)" th:if="${item.status} == 0" th:attr="data-id=${item.id},data-title=${item.title}">
+                    <input type="checkbox" title="status" name="status" id="status" th:value="${item.status}" onchange="change(event)" checked="checked" th:unless="${item.status} == 0" th:attr="data-id=${item.id},data-title=${item.title}">
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td><a th:href="@{/admin/cates/rmitem(id=${item.id})}">delete</a></td>
+                            <td><a th:href="@{/admin/cates/edit(id=${item.id})}">edit</a></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</body>
+</html>
