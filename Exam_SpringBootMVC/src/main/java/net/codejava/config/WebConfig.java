@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/admin/chklogin",
                         "/admin/register",
                         "/admin/register/**",
+                        "/admin/verify",   // Thêm đường dẫn verify vào danh sách ngoại lệ
                         "/css/**",
                         "/js/**",
                         "/images/**",
@@ -30,7 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/admin/login",
                         "/admin/chklogin",
                         "/admin/register",
-                        "/admin/register/**"
+                        "/admin/register/**",
+                        "/admin/verify"    // Thêm đường dẫn verify vào ngoại lệ
                 );
     }
     
@@ -45,3 +47,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/images/");
     }
 }
+
