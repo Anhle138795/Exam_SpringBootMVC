@@ -150,4 +150,9 @@ public class AdminController {
         model.addAttribute("message", "Your account has been verified. You can now log in.");
         return "admin/ad_verify"; // Create a view to show success message
     }
+    
+    @GetMapping("/tables")
+    public String tables() {
+        return "admin/tables";
+    }
 }

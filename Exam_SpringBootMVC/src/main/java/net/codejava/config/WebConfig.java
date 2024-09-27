@@ -1,6 +1,7 @@
 package net.codejava.config;
 
 import net.codejava.interceptor.AdminInterceptor;
+import net.codejava.interceptor.EmployeeInterceptor;
 import net.codejava.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
@@ -17,7 +18,12 @@ public class WebConfig implements WebMvcConfigurer {
                         "/admin/chklogin",
                         "/admin/register",
                         "/admin/register/**",
-                        "/admin/verify",   // Thêm đường dẫn verify vào danh sách ngoại lệ
+                        "/admin/verify", 
+                        "/employees/login",
+		                "/employees/chklogin",
+		                "/employees/register",
+		                "/employees/register/**",
+		                "/employees/verify"  ,
                         "/css/**",
                         "/js/**",
                         "/images/**",
@@ -34,6 +40,15 @@ public class WebConfig implements WebMvcConfigurer {
                         "/admin/register/**",
                         "/admin/verify"    // Thêm đường dẫn verify vào ngoại lệ
                 );
+        registry.addInterceptor(new EmployeeInterceptor())
+		        .addPathPatterns("/admin/**")
+		        .excludePathPatterns(
+		                "/employees/login",
+		                "/employees/chklogin",
+		                "/employees/register",
+		                "/employees/register/**",
+		                "/employees/verify"  
+        );
     }
     
     @Override

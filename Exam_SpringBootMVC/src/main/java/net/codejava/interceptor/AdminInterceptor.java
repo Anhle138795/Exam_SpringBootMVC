@@ -15,21 +15,18 @@ public class AdminInterceptor implements HandlerInterceptor {
         Employees employee = (session != null) ? (Employees) session.getAttribute("employee") : null;
         
         if (employee != null && "ADMIN".equalsIgnoreCase(employee.getUserType())) {
-            return true; // Người dùng là admin
+            return true;
         }
         
-        // Chuyển hướng đến trang đăng nhập nếu không phải admin
         response.sendRedirect("/admin/login");
         return false;
     }
     
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        // Xử lý sau khi controller xử lý nhưng trước khi view được render (tùy chọn)
     }
     
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        // Xử lý sau khi view được render (tùy chọn)
     }
 }
