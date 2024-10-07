@@ -23,6 +23,55 @@ public class EmployeeService {
     @Autowired
     private JdbcTemplate jdbcTemplate; 
 
+    public boolean changePassword(Employees employee, String currentPassword, String newPassword) {
+        // Verify current password
+        if (checkPassword(currentPassword, employee.getPassword())) {
+            // Encrypt and set new password
+            String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            employee.setPassword(hashedNewPassword);
+            
+            // Update employee in the database
+            int updated = updateUser(employee); 
+            return updated > 0; // Return true if the update was successful
+        } 
+        return false; // Return false if the current password is incorrect
+    }
+    
+    public void generateResetToken(String email, String siteURL) {
+        Employees employee = findByEmail(email);
+        
+        if (employee != null) {
+            // Generate reset token
+            String token = UUID.randomUUID().toString();
+            employee.setToken(token);
+            updateUser(employee); // Save the token to the database
+            
+            // Send reset email
+            String resetURL = siteURL + "/employees/reset-password?token=" + token;
+            emailService.sendResetPasswordEmail(employee, resetURL);
+        }
+    }
+
+    // Find user by reset token
+    public Employees findByResetToken(String token) {
+        return employeeRepository.findByToken(token).orElse(null);
+    }
+
+    // Reset password
+    public boolean resetPassword(String token, String newPassword) {
+        Employees employee = findByResetToken(token);
+        
+        if (employee != null) {
+            // Encrypt the new password
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            employee.setPassword(hashedPassword);
+            employee.setToken(null); // Clear the token after successful reset
+            updateUser(employee);
+            return true;
+        }
+        return false;
+    }
+    
     // Tìm theo ID
     public Employees findById(int id) {
         return employeeRepository.findById(id).orElse(null); // This can stay as is if your repository still returns Optional

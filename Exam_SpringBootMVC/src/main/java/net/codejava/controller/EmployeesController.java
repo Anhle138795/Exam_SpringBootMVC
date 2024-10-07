@@ -147,4 +147,98 @@ public class EmployeesController {
         return "employees/emp_verify";
     }
     
+    @GetMapping("/change-password")
+    public String changePasswordForm(Model model, HttpSession session) {
+        Employees employee = (Employees) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employees/login"; // Redirect to login if not authenticated
+        }
+        model.addAttribute("employee", employee);
+        return "employees/emp_change_password"; // Create this view
+    }
+
+    // Handle change password form submission
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("currentPassword") String currentPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("confirmPassword") String confirmPassword,
+                                 HttpSession session, Model model) {
+        Employees employee = (Employees) session.getAttribute("employee");
+        
+        if (employee == null) {
+            return "redirect:/employees/login";
+        }
+
+        // Check if the new passwords match
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "New passwords do not match.");
+            return "employees/emp_change_password";
+        }
+
+        // Try to change the password
+        boolean success = employeeService.changePassword(employee, currentPassword, newPassword);
+
+        if (success) {
+            model.addAttribute("message", "Password changed successfully.");
+            return "employees/emp_change_password"; // You can redirect to dashboard if needed
+        } else {
+            model.addAttribute("error", "Current password is incorrect.");
+            return "employees/emp_change_password";
+        }
+    }
+    
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm() {
+        return "employees/emp_forgot_password"; // Create this view
+    }
+
+    // Handle forgot password submission
+    @PostMapping("/forgot-password")
+    public String handleForgotPassword(@RequestParam("email") String email, HttpServletRequest request) {
+        String siteURL = ServletUriComponentsBuilder.fromRequestUri(request)
+                .replacePath(null)
+                .build()
+                .toUriString();
+
+        employeeService.generateResetToken(email, siteURL);
+        
+        return "redirect:/employees/forgot-password?sent=true"; // Redirect to confirm the email was sent
+    }
+
+    // Show reset password form
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
+        Employees employee = employeeService.findByResetToken(token);
+
+        if (employee == null) {
+            model.addAttribute("message", "Invalid or expired reset token.");
+            return "employees/emp_reset_password"; // Create this view
+        }
+
+        model.addAttribute("token", token); // Pass the token to the form
+        return "employees/emp_reset_password";
+    }
+
+    // Handle reset password submission
+    @PostMapping("/reset-password")
+    public String handleResetPassword(@RequestParam("token") String token,
+                                      @RequestParam("newPassword") String newPassword,
+                                      @RequestParam("confirmPassword") String confirmPassword,
+                                      Model model) {
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match.");
+            model.addAttribute("token", token);
+            return "employees/emp_reset_password";
+        }
+
+        boolean success = employeeService.resetPassword(token, newPassword);
+
+        if (success) {
+            model.addAttribute("message", "Your password has been reset. You can now log in.");
+        } else {
+            model.addAttribute("message", "Invalid or expired reset token.");
+        }
+
+        return "employees/emp_reset_password";
+    }
 }
