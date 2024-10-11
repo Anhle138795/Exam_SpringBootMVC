@@ -3,6 +3,7 @@ package net.codejava.service;
 import net.codejava.model.Employees;
 import net.codejava.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,6 +24,11 @@ public class EmployeeService {
     @Autowired
     private JdbcTemplate jdbcTemplate; 
 
+    public List<Employees> getAllEmployees() {
+        String sql = "SELECT * FROM Employees";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Employees.class));
+    }
+    
     public boolean changePassword(Employees employee, String currentPassword, String newPassword) {
         // Verify current password
         if (checkPassword(currentPassword, employee.getPassword())) {
@@ -126,6 +132,18 @@ public class EmployeeService {
     public Employees findByVerifyCode(String verifyCode) {
         return employeeRepository.findByVerifyCode(verifyCode).orElse(null); // Adjust repository method if needed
     }
+    
+    public int updateEmployeeInfo(Employees employee) {
+        return jdbcTemplate.update(
+            "UPDATE Employees SET fullname=?, phone=?, address=?, profile_image=? WHERE employee_id=?",
+            employee.getFullname(),
+            employee.getPhone(),
+            employee.getAddress(),
+            employee.getProfileImage(),
+            employee.getEmployeeId()
+        );
+    }
+
 
     // Cập nhật nhân viên
     public int updateUser(Employees employee) {
