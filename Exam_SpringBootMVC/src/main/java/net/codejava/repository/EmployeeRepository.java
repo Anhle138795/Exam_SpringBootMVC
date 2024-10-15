@@ -39,6 +39,13 @@ public class EmployeeRepository {
             return Optional.empty();
         }
     }
+    
+    public Employees findByContractId(int contractId) {
+        String sql = "SELECT e.* FROM Employees e " +
+                     "JOIN Contracts c ON e.employee_id = c.employee_id " +
+                     "WHERE c.contract_id = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Employees.class), new Object[]{contractId});
+    }
 
     // Find by user type
     public List<Employees> findByUserType(String userType) {

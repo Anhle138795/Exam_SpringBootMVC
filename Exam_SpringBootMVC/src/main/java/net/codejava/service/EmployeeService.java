@@ -54,7 +54,7 @@ public class EmployeeService {
             
             // Send reset email
             String resetURL = siteURL + "/employees/reset-password?token=" + token;
-            emailService.sendResetPasswordEmail(employee, resetURL);
+            emailService.sendResetPasswordEmailforEmployees(employee, resetURL);
         }
     }
 
@@ -124,7 +124,7 @@ public class EmployeeService {
         employeeRepository.saveUser(employee);
         
         // Send verification email
-        emailService.sendVerificationEmail(employee, siteURL);
+        emailService.sendVerificationEmailforEmployees(employee, siteURL);
         
         return employee;
     }
