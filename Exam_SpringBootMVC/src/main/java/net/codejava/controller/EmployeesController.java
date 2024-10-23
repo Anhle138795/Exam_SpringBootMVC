@@ -114,7 +114,7 @@ public class EmployeesController {
 
         // Update session
         session.setAttribute("employee", employee);
-        return "redirect:/employees/dashboard"; // Redirect to the dashboard after successful update
+        return "redirect:/employees/updateInfo"; // Redirect to the dashboard after successful update
     }
 
 
@@ -337,4 +337,6 @@ public class EmployeesController {
 
         return "employees/emp_reset_password";
     }
+    
+    
 }
