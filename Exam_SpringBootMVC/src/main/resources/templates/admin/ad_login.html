@@ -9,7 +9,6 @@
 	<style th:replace="common/head_tag"></style>
 </head>
 <body>
-	<div th:replace="common/ad_content_first"></div>
 
 	<div th:if="${param.registered}">
 		<p>Registration successful! Please check your email to verify your
@@ -40,12 +39,7 @@
 					<div class="col-md-6">
 						<div class="breadcrumb-wrapper">
 							<nav aria-label="breadcrumb">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#0">Dashboard</a></li>
-									<li class="breadcrumb-item"><a href="#0">Auth</a></li>
-									<li class="breadcrumb-item active" aria-current="page">
-										Sign in</li>
-								</ol>
+
 							</nav>
 						</div>
 					</div>
@@ -98,9 +92,7 @@
 									<!-- end col -->
 									<div class="col-xxl-6 col-lg-12 col-md-6">
 										<div class="form-check checkbox-style mb-30">
-											<input class="form-check-input" type="checkbox" value=""
-												id="checkbox-remember" /> <label class="form-check-label"
-												for="checkbox-remember"> Remember me next time</label>
+
 										</div>
 									</div>
 									<!-- end col -->
@@ -123,25 +115,6 @@
 								</div>
 								<!-- end row -->
 							</form>
-							<!-- <div class="singin-option pt-40">
-                    <p class="text-sm text-medium text-center text-gray">
-                      Easy Sign In With
-                    </p>
-                    <div class="button-group pt-40 pb-40 d-flex justify-content-center flex-wrap">
-                      <button class="main-btn primary-btn-outline m-2">
-                        <i class="lni lni-facebook-fill mr-10"></i>
-                        Facebook
-                      </button>
-                      <button class="main-btn danger-btn-outline m-2">
-                        <i class="lni lni-google mr-10"></i>
-                        Google
-                      </button>
-                    </div>
-                    <p class="text-sm text-medium text-dark text-center">
-                      Don’t have any account yet?
-                      <a href="signup.html">Create an account</a>
-                    </p>
-                  </div> -->
 						</div>
 					</div>
 				</div>

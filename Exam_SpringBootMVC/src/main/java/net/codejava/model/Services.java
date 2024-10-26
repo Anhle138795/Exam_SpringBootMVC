@@ -7,9 +7,24 @@ public class Services {
     private int servicePrice;
     private int serviceStatus;
     private String serviceImage;
-
+ 
     
-    public int getServiceId() { 
+    public Services() {
+		super();
+	}
+
+	public Services(int serviceId, String serviceName, String serviceDescription, int servicePrice, int serviceStatus,
+			String serviceImage) {
+		super();
+		this.serviceId = serviceId;
+		this.serviceName = serviceName;
+		this.serviceDescription = serviceDescription;
+		this.servicePrice = servicePrice;
+		this.serviceStatus = serviceStatus;
+		this.serviceImage = serviceImage;
+	}
+
+	public int getServiceId() { 
     	return serviceId; 
     	}
     

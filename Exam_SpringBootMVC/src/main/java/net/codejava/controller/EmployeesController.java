@@ -89,7 +89,7 @@ public class EmployeesController {
                         boolean deleted = existingImageFile.delete();
                         if (!deleted) {
                             model.addAttribute("error", "Failed to delete old image.");
-                            return "employees/emp_update_profile"; // Return to the update form on error
+                            return "employees/emp_update_info"; // Return to the update form on error
                         }
                     }
                 }
@@ -105,7 +105,7 @@ public class EmployeesController {
                 employee.setProfileImage(newFileName); // Save only the new filename, not the path
             } catch (IOException e) {
                 model.addAttribute("error", "Failed to upload image.");
-                return "employees/emp_update_profile"; // Return to the update form on error
+                return "employees/emp_update_info"; // Return to the update form on error
             }
         }
 
@@ -180,13 +180,13 @@ public class EmployeesController {
         return "redirect:/employees/login?error=true";
     }
 
-   
-    @GetMapping("/register")
+  /*   
+   @GetMapping("/register") 
     public String registerForm() {
         return "employees/emp_register";
     }
     
-    
+  
     @PostMapping("/register")
     public String registerUser(@RequestParam("fullname") String fullname,
                                @RequestParam("pwd") String password,
@@ -223,7 +223,7 @@ public class EmployeesController {
         
         return "redirect:/employees/login?registered=true";
     }
-    
+*/
     // Verify account
     @GetMapping("/verify")
     public String verifyAccount(@RequestParam("code") String code, Model model) {
@@ -268,7 +268,7 @@ public class EmployeesController {
         // Check if the new passwords match
         if (!newPassword.equals(confirmPassword)) {
             model.addAttribute("error", "New passwords do not match.");
-            return "employees/emp_change_password";
+            return "employees/emp_update_profile";
         }
 
         // Try to change the password
@@ -276,10 +276,10 @@ public class EmployeesController {
 
         if (success) {
             model.addAttribute("message", "Password changed successfully.");
-            return "employees/emp_change_password"; // You can redirect to dashboard if needed
+            return "employees/emp_update_info"; // You can redirect to dashboard if needed
         } else {
             model.addAttribute("error", "Current password is incorrect.");
-            return "employees/emp_change_password";
+            return "employees/emp_update_info";
         }
     }
     
@@ -338,5 +338,10 @@ public class EmployeesController {
         return "employees/emp_reset_password";
     }
     
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/employees/login";
+    }
     
 }

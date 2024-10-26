@@ -274,4 +274,10 @@ public class AdminController {
     	int employeeId = employee.getEmployeeId(); 
         customerService.updateContractEmployee(contractId, employeeId);
     }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/admin/login";
+    }
 }

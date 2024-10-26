@@ -10,6 +10,7 @@
   </head>
   <body>
 	<div th:replace="common/emp_content_first"></div>
+
       <!-- ========== section start ========== -->
       <section class="section">
         <div class="container-fluid">
@@ -18,7 +19,7 @@
             <div class="row align-items-center">
               <div class="col-md-6">
                 <div class="title">
-                  <h2>Settings</h2>
+                  <h2>Profile </h2>
                 </div>
               </div>
               <!-- end col -->
@@ -61,8 +62,8 @@
 				         height="75"  
 				         onerror="this.src='http://via.placeholder.com/75';" />
                       <div class="update-image"> 
-                        <input type="file" />
                         <label for="profileImage" class="lni lni-cloud-upload"></label>
+                        <input type="file" />
                       </div>
                     </div>
                     <div class="profile-meta">
@@ -74,13 +75,25 @@
                     <input type="email" placeholder="admin@example.com" th:value="${employee.email}" disabled/>
                   </div>
                   <div class="input-style-1">
-                    <label>Password</label>
-                    <input type="password" value="**************" />
-                  </div>
-                  <div class="input-style-1">
-                    <label>Bio</label>
-                    <textarea placeholder="Write your bio here" rows="4">
-  Crafted for – Business, Startup, SaaS, Apps, Event, Software, Agency, Resume and Portfolio. All Landing Pages comes with clean design and responsive layout. Also packed with all essential sections, elements, and features you need to launch</textarea>
+				    <form action="#" th:action="@{/employees/change-password}" method="post">
+				        <div>
+				            <label for="currentPassword">Current Password:</label>
+				            <input type="password" id="currentPassword" name="currentPassword" required />
+				        </div>
+				        <div>
+				            <label for="newPassword">New Password:</label>
+				            <input type="password" id="newPassword" name="newPassword" required />
+				        </div>
+				        <div>
+				            <label for="confirmPassword">Confirm New Password:</label>
+				            <input type="password" id="confirmPassword" name="confirmPassword" required />
+				        </div>
+	                    <div class="mt-4">
+	                      <button type="submit" class="main-btn primary-btn btn-hover">
+	                        Update Password
+	                      </button>
+	                    </div>
+				    </form>
                   </div>
                 </div>
               </div>
@@ -97,25 +110,19 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="input-style-1">
-                        <label for="fullname">Full Name</label>
+                        <label for="fullname">Full Name*</label>
                         <input type="text" id="fullname" name="fullname" th:value="${employee.fullname}" required placeholder="Full Name" />
                       </div>
                     </div>
-<!--                     <div class="col-12">
-                      <div class="input-style-1">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" th:value="${employee.email}" disabled placeholder="email" />
-                      </div>
-                    </div> -->
                     <div class="col-12">
                       <div class="input-style-1">
-                        <label for="phone">Phone</label>
+                        <label for="phone">Phone*</label>
                         <input type="text" id="phone" name="phone" th:value="${employee.phone}" required placeholder="Phone" />
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="input-style-1">
-                        <label for="address">Address</label>
+                        <label for="address">Address*</label>
                         <input type="text" id="address" name="address" th:value="${employee.address}" required placeholder="Address" />
                       </div>
                     </div>
@@ -126,9 +133,10 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button type="submit" class="main-btn primary-btn btn-hover">
+                      <button type="submit" class="main-btn primary-btn btn-hover" onclick="showToast('Profile updated successfully!')">
                         Update Profile
                       </button>
+                      	<div id="toast-container" class="toast-container"></div>
                     </div>
                   </div>
                 </form>

@@ -51,3 +51,37 @@
     mainWrapper.classList.remove("active");
   });
 })();
+
+// Function to show toast
+function showToast(message, duration = 5000) {
+  const toastContainer = document.getElementById("toast-container");
+
+  // Create toast element
+  const toast = document.createElement("div");
+  toast.classList.add("toast");
+
+  // Add message
+  toast.innerHTML = `
+    <span>${message}</span>
+    <div class="toast-progress"></div>
+  `;
+
+  // Append toast to container
+  toastContainer.appendChild(toast);
+
+  // Trigger the show animation
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 100);
+
+  // Remove toast after duration
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, duration);
+}
+
+// Example usage: showToast("Profile updated successfully!");
+
