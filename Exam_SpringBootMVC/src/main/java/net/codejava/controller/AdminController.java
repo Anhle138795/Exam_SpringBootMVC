@@ -104,9 +104,9 @@ public class AdminController {
                 
                 switch (employee.getUserType().toUpperCase()) {
                     case "ADMIN":
-                        return "redirect:/admin/dashboard";
+                        return "redirect:/admin/index";
                     case "EMPLOYEE":
-                        return "redirect:/employee/dashboard";
+                        return "redirect:/employees/dashboard";
                     default:
                         logger.warn("Unknown userType: " + employee.getUserType());
                         return "redirect:/admin/login?error=true";
@@ -166,7 +166,7 @@ public class AdminController {
         logger.info("New user registered: " + fullname + ", UserType: " + userType);
         
         
-        return "redirect:/admin/login?registered=true";
+        return "redirect:/admin/register?success=add";
     }
     
     @GetMapping("/admin/contracts")

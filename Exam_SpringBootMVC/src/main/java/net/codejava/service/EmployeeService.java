@@ -1,7 +1,10 @@
 package net.codejava.service;
 
+import net.codejava.model.EmployeeServices;
 import net.codejava.model.Employees;
 import net.codejava.repository.EmployeeRepository;
+import net.codejava.repository.EmployeeServicesRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,11 +26,16 @@ public class EmployeeService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate; 
+    
+    @Autowired
+    private EmployeeServicesRepository employeeServicesRepository;
 
     public List<Employees> getAllEmployees() {
         String sql = "SELECT * FROM Employees";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Employees.class));
     }
+    
+
     
     public boolean changePassword(Employees employee, String currentPassword, String newPassword) {
         // Verify current password

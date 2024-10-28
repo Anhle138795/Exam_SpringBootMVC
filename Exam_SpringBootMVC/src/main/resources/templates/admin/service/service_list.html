@@ -10,37 +10,141 @@
 </head>
 <body>
 	<div th:replace="common/ad_content_first"></div>
-    <div class="container mt-5">
-        <h2>Service List</h2>
-        <a href="/admin/services/add" class="btn btn-primary mb-3">Add New Service</a>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="service : ${services}">
-                    <td th:text="${service.serviceId}"></td>
-                    <td th:text="${service.serviceName}"></td>
-                    <td th:text="${service.serviceDescription}"></td>
-                    <td th:text="${service.servicePrice}"></td>
-                    <td th:text="${service.serviceStatus == 1 ? 'Active' : 'Inactive'}"></td>
-                    <td>
-                        <a th:href="@{/admin/services/{id}(id=${service.serviceId})}" class="btn btn-info btn-sm">View</a>
-                        <a th:href="@{/admin/services/edit/{id}(id=${service.serviceId})}" class="btn btn-warning btn-sm">Edit</a>
-                        <a th:href="@{/admin/services/delete/{id}(id=${service.serviceId})}" class="btn btn-danger btn-sm" 
-                           onclick="return confirm('Are you sure you want to delete this service?');">Delete</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+	<div id="toast-container" class="toast-container"></div>
+ <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <!-- ========== title-wrapper start ========== -->
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Tables</h2>
+                </div>
+              </div>
+              <!-- end col -->
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== title-wrapper end ========== -->
+
+          <!-- ========== tables-wrapper start ========== -->
+          <div class="tables-wrapper">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card-style mb-30">
+
+                	<div class="row">
+					    <div class="col-sm-8">
+			                  <h6 class="mb-10">Data Table</h6>
+			                  <p class="text-sm mb-20">
+			                    For basic styling—light padding and only horizontal
+			                    dividers—use the class table.
+			                  </p>
+					    </div>
+					    <div class="col-sm-4 d-inline-flex p-2">
+                			<a href="/admin/services/add" class="main-btn primary-btn-outline rounded-full btn-hover ml-auto">Add New Service</a>
+					   	</div>
+					 </div>
+
+                  <div class="table-wrapper table-responsive">
+                   <table class="table top-selling-table">
+                    <thead>
+                      <tr >
+                        <th>
+                          <h6 class="text-sm text-medium">Services</h6>
+                        </th>
+                        <th class="min-width">
+                          <h6 class="text-sm text-medium">
+                            Description
+                          </h6>
+                        </th>
+                        <th class="min-width">
+                          <h6 class="text-sm text-medium">
+                            Price
+                          </h6>
+                        </th>
+                        <th class="min-width">
+                          <h6 class="text-sm text-medium">
+                            Status
+                          </h6>
+                        </th>
+                        <th>
+                          <h6 class="text-sm text-medium text-end">
+                            Actions
+                          </h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="service : ${services}">
+                        <td>
+                          <div class="product">
+                            <div class="image">
+                              <img th:src="@{'/uploads/' + ${service.serviceImage}}" 
+							         class="card-img-top" 
+							         alt="Employee Profile Image"  
+							         onerror="this.src='http://via.placeholder.com/75';" />
+                            </div>
+                            <p class="text-sm" th:text="${service.serviceName}"></p>
+                          </div>
+                        </td>
+                        <td>
+                          <p class="text-sm" th:text="${service.serviceDescription}"></p>
+                        </td>
+                        <td>
+                          <p class="text-sm" th:text="${service.servicePrice} + '$'"></p>
+                        </td>
+                        <td>
+                          <span class="status-btn close-btn" th:text="${service.serviceStatus == 1 ? 'Active' : 'Inactive'}"></span>
+                        </td>
+                        <td>
+                          <div class="action justify-content-end">
+                            <a  class="edit" th:href="@{/admin/services/{id}(id=${service.serviceId})}">
+                              <i class="lni lni-eye text-info"></i>
+                            </a>
+                            <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              <i class="lni lni-more-alt"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
+                              <li class="dropdown-item">
+                                <a th:href="@{/admin/services/edit(id=${service.serviceId})}" class="text-primary">Edit</a>
+                              </li>
+                              <li class="dropdown-item">
+                                <a th:href="@{/admin/services/delete/{id}(id=${service.serviceId})}" class="text-danger" 
+                                	onclick="return confirm('Are you sure you want to delete this service?');">Remove</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      
+                    </tbody>
+                  </table>
+                    <!-- end table -->
+                  </div>
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row -->
+          </div>
+          <!-- ========== tables-wrapper end ========== -->
+        </div>
+        <!-- end container -->
+      </section>
+      <!-- ========== table components end ========== -->
    	<div th:replace="common/ad_content_footer"></div>
 </body>
 </html>

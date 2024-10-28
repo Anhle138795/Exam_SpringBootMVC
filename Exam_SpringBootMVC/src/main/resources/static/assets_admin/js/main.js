@@ -52,36 +52,36 @@
   });
 })();
 
-// Function to show toast
-function showToast(message, duration = 5000) {
-  const toastContainer = document.getElementById("toast-container");
+// Function to show a toast notification
+function showToast(message) {
+    const toastContainer = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
 
-  // Create toast element
-  const toast = document.createElement("div");
-  toast.classList.add("toast");
-
-  // Add message
-  toast.innerHTML = `
-    <span>${message}</span>
-    <div class="toast-progress"></div>
-  `;
-
-  // Append toast to container
-  toastContainer.appendChild(toast);
-
-  // Trigger the show animation
-  setTimeout(() => {
-    toast.classList.add("show");
-  }, 100);
-
-  // Remove toast after duration
-  setTimeout(() => {
-    toast.classList.remove("show");
+    toastContainer.appendChild(toast);
+    
+    // Show toast with fade-in effect
     setTimeout(() => {
-      toast.remove();
-    }, 300);
-  }, duration);
+        toast.classList.add('show');
+    }, 100);
+
+    // Hide toast after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toastContainer.removeChild(toast), 500);
+    }, 3000);
 }
 
-// Example usage: showToast("Profile updated successfully!");
+// Trigger a toast based on URL parameters (add this in <body> or at the end of the file)
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'add') {
+        showToast("Service added successfully!");
+    } else if (urlParams.get('success') === 'update') {
+        showToast("Service updated successfully!");
+    } else if (urlParams.get('success') === 'delete') {
+        showToast("Service deleted successfully!");
+    }
+};
 

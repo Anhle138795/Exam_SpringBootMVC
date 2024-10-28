@@ -1,8 +1,13 @@
 package net.codejava.controller;
 
+import net.codejava.model.EmployeeServices;
 import net.codejava.model.Employees;
+import net.codejava.model.Services;
 import net.codejava.service.EmailService;
 import net.codejava.service.EmployeeService;
+import net.codejava.service.EmployeeServicesService;
+import net.codejava.service.ServiceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +38,12 @@ public class EmployeesController {
     @Autowired
     private EmployeeService employeeService;
     
+    
     @Autowired
-    private EmailService emailService;
+    private ServiceService serviceService;
+    
+    @Autowired
+    private EmployeeServicesService employeeServicesService;
     
     private static final String UPLOAD_DIR = "uploads/";
     
@@ -44,8 +54,11 @@ public class EmployeesController {
         if (employee == null) {
             return "redirect:/employees/login";
         }
-
-        model.addAttribute("employee", employee);  // Add employee to the model
+        List<Services> services = serviceService.getAllServices();
+        model.addAttribute("services", services);
+        List<EmployeeServices> employeeServices = employeeServicesService.findAll();
+        model.addAttribute("employeeServices", employeeServices);
+        model.addAttribute("employee", employee);  
         return "employees/emp_update_info";
     }
 
@@ -111,12 +124,11 @@ public class EmployeesController {
 
         // Update the employee information in the database
         employeeService.updateEmployeeInfo(employee);
-
         // Update session
         session.setAttribute("employee", employee);
-        return "redirect:/employees/updateInfo"; // Redirect to the dashboard after successful update
+        return "redirect:/employees/updateInfo?success=update"; // Redirect to the dashboard after successful update
     }
-
+    
 
     
    
@@ -341,7 +353,7 @@ public class EmployeesController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/employees/login";
+        return "redirect:/admin/login";
     }
     
 }

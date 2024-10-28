@@ -7,7 +7,17 @@ public class EmployeeServices {
     private String details;
 
   
-    public int getEmpServiceId() {
+    public EmployeeServices() {
+		super();
+	}
+	public EmployeeServices(int empServiceId, int employeeId, int serviceId, String details) {
+		super();
+		this.empServiceId = empServiceId;
+		this.employeeId = employeeId;
+		this.serviceId = serviceId;
+		this.details = details;
+	}
+	public int getEmpServiceId() {
     	return empServiceId; 
     	}
     public void setEmpServiceId(int empServiceId) {

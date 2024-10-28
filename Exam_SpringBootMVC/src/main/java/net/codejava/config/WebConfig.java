@@ -19,16 +19,11 @@ public class WebConfig implements WebMvcConfigurer {
                 "/admin/chklogin",
                 "/admin/forgot-password",
                 "/admin/reset-password",
-                "/admin/register",
-                "/admin/register/**",
                 "/admin/verify", 
                 "/employees/login",
                 "/employees/chklogin",
                 "/employees/forgot-password",
                 "/employees/reset-password",
-                "/employees/register",
-                "/employees/register/**",
-                "/employees/verify"  ,
                 "/customer/login",
                 "/customer/chklogin",
                 "/customer/forgot-password",
@@ -39,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
                 "/css/**",
                 "/js/**",
                 "/images/**",
-                "/assets_admin/**", // Thêm ngoại lệ cho tài nguyên admin
+                "/assets_admin/**", 
                 "/error"
             );
 
@@ -56,7 +51,7 @@ public class WebConfig implements WebMvcConfigurer {
                 "/css/**",
                 "/js/**",
                 "/images/**",
-                "/assets_admin/**", // Thêm ngoại lệ cho tài nguyên admin
+                "/assets_admin/**",
                 "/error"
             );
 
@@ -67,13 +62,11 @@ public class WebConfig implements WebMvcConfigurer {
                 "/admin/chklogin",
                 "/admin/forgot-password",
                 "/admin/reset-password",
-                "/admin/register",
-                "/admin/register/**",
                 "/admin/verify",
                 "/css/**",
                 "/js/**",
                 "/images/**",
-                "/assets_admin/**", // Thêm ngoại lệ cho tài nguyên admin
+                "/assets_admin/**",
                 "/error"
             );
 
@@ -84,19 +77,19 @@ public class WebConfig implements WebMvcConfigurer {
                 "/employees/chklogin",
                 "/employees/forgot-password",
                 "/employees/reset-password",
-                "/employees/register",
-                "/employees/register/**",
                 "/employees/verify",
                 "/css/**",
                 "/js/**",
                 "/images/**",
-                "/assets_admin/**", // Thêm ngoại lệ cho tài nguyên admin
+                "/assets_admin/**",
                 "/error"
             );
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/assets_admin/**")
+        	.addResourceLocations("classpath:/static/assets_admin/");
         registry.addResourceHandler("/css/**")
             .addResourceLocations("classpath:/static/assets_admin/css/");
         registry.addResourceHandler("/js/**")
