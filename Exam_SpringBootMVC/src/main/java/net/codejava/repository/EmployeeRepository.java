@@ -104,29 +104,8 @@ public class EmployeeRepository {
 
     // Save a new employee
     public int saveUser(Employees employee) {
-        String sql = "INSERT INTO Employees (fullname, password, user_type, email, phone, address, profile_image, experience_years, salary, status, verify_code, token, created_at) "
-                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(
-            sql,
-            employee.getFullname(),
-            employee.getPassword(),
-            employee.getUserType(),
-            employee.getEmail(),
-            employee.getPhone(),
-            employee.getAddress(),
-            employee.getProfileImage(),
-            employee.getExperienceYears(),
-            employee.getSalary(),
-            employee.getStatus(),
-            employee.getVerifyCode(),
-            employee.getToken(),
-            employee.getCreatedAt()
-        );
-    }
-
-    // Update employee information
-    public int updateUser(Employees employee) {
-        String sql = "UPDATE Employees SET fullname=?, password=?, user_type=?, email=?, phone=?, address=?, profile_image=?, experience_years=?, salary=?, status=?, verify_code=?, token=?, created_at=? WHERE employee_id=?";
+        String sql = "INSERT INTO Employees (fullname, password, user_type, email, phone, address, profile_image, experience_years, salary, status, verify_code, token, created_at, birthday, bio) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(
             sql,
             employee.getFullname(),
@@ -142,7 +121,32 @@ public class EmployeeRepository {
             employee.getVerifyCode(),
             employee.getToken(),
             employee.getCreatedAt(),
-            employee.getEmployeeId()
+            employee.getBirthday(),
+            employee.getBio()
+        );
+    }
+
+    // Update employee information
+    public int updateUser(Employees employee) {
+        String sql = "UPDATE Employees SET fullname=?, password=?, user_type=?, email=?, phone=?, address=?, profile_image=?, experience_years=?, salary=?, status=?, verify_code=?, token=?, created_at=?, birthday=?, bio=? WHERE employee_id=?";
+        return jdbcTemplate.update(
+            sql,
+            employee.getFullname(),
+            employee.getPassword(),
+            employee.getUserType(),
+            employee.getEmail(),
+            employee.getPhone(),
+            employee.getAddress(),
+            employee.getProfileImage(),
+            employee.getExperienceYears(),
+            employee.getSalary(),
+            employee.getStatus(),
+            employee.getVerifyCode(),
+            employee.getToken(),
+            employee.getCreatedAt(),
+            employee.getEmployeeId(),
+            employee.getBirthday(),
+            employee.getBio()
         );
     }
     
@@ -167,6 +171,8 @@ public class EmployeeRepository {
                 employee.setVerifyCode(rs.getString("verify_code"));
                 employee.setToken(rs.getString("token"));
                 employee.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                employee.setBirthday(rs.getDate("birthday").toLocalDate());
+                employee.setBio(rs.getString("bio"));
                 return employee;
             }
         });

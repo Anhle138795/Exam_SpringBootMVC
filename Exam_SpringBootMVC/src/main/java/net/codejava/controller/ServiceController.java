@@ -66,8 +66,8 @@ public class ServiceController {
         return "redirect:/admin/services?success=add";
     }
 
-    @GetMapping("/edit")
-    public String editServiceForm(@RequestParam int id, Model model) {
+    @GetMapping("/edit/{id}")
+    public String editServiceForm(@PathVariable int id, Model model) {
         Services service = serviceService.getServiceById(id);
         model.addAttribute("service", service);
         return "admin/service/service_edit";
@@ -137,9 +137,4 @@ public class ServiceController {
         }
     }
     
-    @GetMapping("/delete/{id}")
-    public String deleteService(@PathVariable int id) {
-        serviceService.deleteService(id);
-        return "redirect:/admin/services?success=delete";
-    }
 }

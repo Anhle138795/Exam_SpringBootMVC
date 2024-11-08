@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <title>Edit Service</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+    <style th:replace="common/head_tag"></style>
 </head>
 <body>
+	<div th:replace="common/ad_content_first"></div>
     <div class="container mt-5">
         <h2>Edit Service</h2>
         <form th:action="@{/admin/services/edit/{id}(id=${service.serviceId})}" method="post" enctype="multipart/form-data">
@@ -43,5 +47,6 @@
             <a href="/admin/services" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
+    <div th:replace="common/ad_content_footer"></div>
 </body>
 </html>

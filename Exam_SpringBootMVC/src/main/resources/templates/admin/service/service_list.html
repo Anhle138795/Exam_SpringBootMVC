@@ -13,46 +13,24 @@
 	<div id="toast-container" class="toast-container"></div>
  <!-- ========== table components start ========== -->
       <section class="table-components">
-        <div class="container-fluid">
-          <!-- ========== title-wrapper start ========== -->
-          <div class="title-wrapper pt-30">
-            <div class="row align-items-center">
-              <div class="col-md-6">
-                <div class="title">
-                  <h2>Tables</h2>
-                </div>
-              </div>
-              <!-- end col -->
-              <div class="col-md-6">
-                <div class="breadcrumb-wrapper">
-                  <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                      
-                    </ol>
-                  </nav>
-                </div>
-              </div>
-              <!-- end col -->
-            </div>
-            <!-- end row -->
-          </div>
-          <!-- ========== title-wrapper end ========== -->
+        <div class="container-fluid pt-10">
+
 
           <!-- ========== tables-wrapper start ========== -->
-          <div class="tables-wrapper">
+          <div class="tables-wrapper pt-25">
             <div class="row">
               <div class="col-lg-12">
                 <div class="card-style mb-30">
 
                 	<div class="row">
-					    <div class="col-sm-8">
-			                  <h6 class="mb-10">Data Table</h6>
-			                  <p class="text-sm mb-20">
+					    <div class="col-sm-8 mt-2">
+		                  <h2 class="mb-10">Data Table Services</h2>
+	<!-- 			                  <p class="text-sm mb-20">
 			                    For basic styling—light padding and only horizontal
 			                    dividers—use the class table.
-			                  </p>
+			                  </p> -->
 					    </div>
-					    <div class="col-sm-4 d-inline-flex p-2">
+					    <div class="col-sm-4 d-inline-flex pb-3">
                 			<a href="/admin/services/add" class="main-btn primary-btn-outline rounded-full btn-hover ml-auto">Add New Service</a>
 					   	</div>
 					 </div>
@@ -65,7 +43,7 @@
                           <h6 class="text-sm text-medium">Services</h6>
                         </th>
                         <th class="min-width">
-                          <h6 class="text-sm text-medium">
+                          <h6 class="text-sm text-medium ">
                             Description
                           </h6>
                         </th>
@@ -80,7 +58,7 @@
                           </h6>
                         </th>
                         <th>
-                          <h6 class="text-sm text-medium text-end">
+                          <h6 class="text-sm text-medium text-center">
                             Actions
                           </h6>
                         </th>
@@ -108,24 +86,14 @@
                         <td>
                           <span class="status-btn close-btn" th:text="${service.serviceStatus == 1 ? 'Active' : 'Inactive'}"></span>
                         </td>
-                        <td>
-                          <div class="action justify-content-end">
-                            <a  class="edit" th:href="@{/admin/services/{id}(id=${service.serviceId})}">
+                        <td class="text-center">
+                          <div class="action justify-content-center">
+                            <a  class="btn text-info" th:href="@{/admin/services/{id}(id=${service.serviceId})}">
                               <i class="lni lni-eye text-info"></i>
                             </a>
-                            <button class="more-btn ml-10 dropdown-toggle" id="moreAction1" data-bs-toggle="dropdown"
-                              aria-expanded="false">
-                              <i class="lni lni-more-alt"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction1">
-                              <li class="dropdown-item">
-                                <a th:href="@{/admin/services/edit(id=${service.serviceId})}" class="text-primary">Edit</a>
-                              </li>
-                              <li class="dropdown-item">
-                                <a th:href="@{/admin/services/delete/{id}(id=${service.serviceId})}" class="text-danger" 
-                                	onclick="return confirm('Are you sure you want to delete this service?');">Remove</a>
-                              </li>
-                            </ul>
+                            <a th:href="@{/admin/services/edit/{id}(id=${service.serviceId})}" class="text-primary btn">
+                            	<i class="lni lni-pencil"></i>
+                            </a>
                           </div>
                         </td>
                       

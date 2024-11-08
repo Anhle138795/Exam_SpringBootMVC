@@ -36,9 +36,6 @@ public class AdminController {
     private EmployeeService employeeService;
     
     @Autowired
-    private EmailService emailService;
-    
-    @Autowired
     private CustomerService customerService;
     
     @Autowired
