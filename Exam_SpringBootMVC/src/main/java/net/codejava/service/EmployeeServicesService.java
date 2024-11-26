@@ -16,6 +16,14 @@ public class EmployeeServicesService {
     public void save(EmployeeServices employeeService) {
          repository.save(employeeService);
     }
+    
+    public boolean addEmployeeService(EmployeeServices employeeService) {
+        if (repository.existsByEmployeeIdAndServiceId(employeeService.getEmployeeId(), employeeService.getServiceId())) {
+            return false; // Duplicate found
+        }
+        repository.save(employeeService);
+        return true;
+    }
 
     public EmployeeServices findById(int empServiceId) {
         return repository.findById(empServiceId);

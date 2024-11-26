@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <title>Add Service</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style th:replace="common/head_tag"></style>
 </head>
 <body>
+    <div th:replace="common/ad_content_first"></div>
     <div class="container mt-5">
         <h2>Add New Service</h2>
+        
+        <!-- Display error message if present -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
         <form action="/admin/services/add" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="serviceName">Service Name</label>
@@ -36,6 +44,6 @@
             <a href="/admin/services" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
-    
+    <div th:replace="common/ad_content_footer"></div>
 </body>
 </html>

@@ -58,13 +58,18 @@ public class ServiceController {
                 String imageName = saveImage(imageFile);
                 service.setServiceImage(imageName);
             }
-            serviceService.addService(service);
+            boolean isAdded = serviceService.addService(service);
+            if (!isAdded) {
+                model.addAttribute("error", "A service with this name already exists.");
+                return "admin/service/service_add";
+            }
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload image.");
             return "admin/service/service_add";
         }
         return "redirect:/admin/services?success=add";
     }
+
 
     @GetMapping("/edit/{id}")
     public String editServiceForm(@PathVariable int id, Model model) {

@@ -21,8 +21,12 @@ public class ServiceService {
         return serviceRepository.findById(id);
     }
 
-    public void addService(Services service) {
+    public boolean addService(Services service) {
+        if (serviceRepository.existsByName(service.getServiceName())) {
+            return false; // Indicates duplicate
+        }
         serviceRepository.save(service);
+        return true;
     }
 
     public void updateService(Services service) {

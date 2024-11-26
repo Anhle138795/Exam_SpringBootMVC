@@ -54,6 +54,13 @@ public class ServiceRepository {
         String sql = "UPDATE Services SET service_name = ?, service_description = ?, service_price = ?, service_status = ?, service_image = ? WHERE service_id = ?";
         jdbcTemplate.update(sql, service.getServiceName(), service.getServiceDescription(), service.getServicePrice(), service.getServiceStatus(), service.getServiceImage(), service.getServiceId());
     }
+    
+    public boolean existsByName(String serviceName) {
+        String sql = "SELECT COUNT(*) FROM Services WHERE service_name = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, serviceName);
+        return count != null && count > 0;
+    }
+
 
     // Delete a service by ID
     public void deleteById(int id) {

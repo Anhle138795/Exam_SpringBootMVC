@@ -34,21 +34,34 @@ public class EmployeeServicesController {
         return "/employee_service/employee_service_list";
     }
 
-/*    @GetMapping("/add")
+    @GetMapping("/add")
     public String addEmployeeServiceForm(Model model, HttpSession session) {
         model.addAttribute("employeeService", new EmployeeServices());
         List<Services> services = serviceService.getAllServices();
         model.addAttribute("services", services);
         Employees employee = (Employees) session.getAttribute("employee");
         model.addAttribute("employee", employee);
-        return "/employees/emp_services";
+        return "/employees/emp_update_info";
     }
-*/
+
     @PostMapping("/add")
-    public String addEmployeeService(@ModelAttribute EmployeeServices employeeService) {
-        employeeServicesService.save(employeeService);
-        return "redirect:/employees/updateInfo";
+    public String addEmployeeService(@ModelAttribute EmployeeServices employeeService, Model model, HttpSession session) {
+        boolean isAdded = employeeServicesService.addEmployeeService(employeeService);
+        if (!isAdded) {
+            // If the service is already assigned, set an error message and reload the form
+            model.addAttribute("errorMessage", "This service is already assigned to the employee.");
+            
+            // Reload employee and service information for the form
+            List<Services> services = serviceService.getAllServices();
+            model.addAttribute("services", services);
+            Employees employee = (Employees) session.getAttribute("employee");
+            model.addAttribute("employee", employee);
+            
+            return "/employees/emp_update_info";
+        }
+        return "redirect:/employees/updateInfo"; 
     }
+
 
     @GetMapping("/edit/{id}")
     public String editEmployeeServiceForm(@PathVariable int id, Model model) {
